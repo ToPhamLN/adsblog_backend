@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon --inspect ./src/index.js",
+    "start": "node ./src/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --check .",
