@@ -1,7 +1,6 @@
 import TelegramBot from 'node-telegram-bot-api/lib/telegram.js'
 import dotenv from 'dotenv'
 import { saveUser } from './controllers/auth.controller.js'
-import fs from 'fs' // Import fs module
 
 dotenv.config()
 
@@ -9,19 +8,17 @@ const token = process.env.BOT_TOKEN
 const bot_url = process.env.BOT_URL
 
 const bot = new TelegramBot(token, { polling: true })
-console.log(token, bot_url)
+console.log(token, bot_url, bot)
 
 bot.onText(/\/start$/, async (msg) => {
   const chatId = msg.chat.id
-  const gifPath =
-    'https://raw.githubusercontent.com/ToPhamLN/morriapp/master/frontend/src/assets/favicon.ico'
   const userId = msg.from.id
   const userProfile = msg.from
 
   const user = await saveUser(
     userId,
     userProfile.first_name,
-    userProfile.username
+    userProfile.first_name + userProfile.last_name
   )
 
   const caption = `  
@@ -30,7 +27,6 @@ bot.onText(/\/start$/, async (msg) => {
   `
 
   const options = {
-    caption: caption,
     parse_mode: 'HTML',
     reply_markup: {
       inline_keyboard: [
@@ -44,7 +40,7 @@ bot.onText(/\/start$/, async (msg) => {
     }
   }
 
-  bot.sendPhoto(chatId, gifPath, options)
+  bot.sendMessage(chatId, caption, options)
 })
 
 export default bot

@@ -1,11 +1,11 @@
 import UserModel from '../model/user.model.js'
 import { ERole } from '../constants/enum.js'
 
-export const saveUser = async ({
+export const saveUser = async (
   id,
   first_name,
   username
-}) => {
+) => {
   try {
     const existedUser = await UserModel.findOne({
       telegramId: id
